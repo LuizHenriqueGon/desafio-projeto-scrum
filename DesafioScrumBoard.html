@@ -1,1 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio: Completando o Framework Scrum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .handwritten {
+            font-family: 'Indie Flower', cursive;
+        }
+        .drop-zone {
+            transition: all 0.2s ease;
+        }
+        .drop-zone.drag-over {
+            background-color: #e5e7eb;
+            border-color: #3b82f6;
+            transform: scale(1.01);
+        }
+        .sticky-note {
+            cursor: grab;
+            transition: transform 0.1s;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+        .sticky-note:active {
+            cursor: grabbing;
+            transform: scale(1.05) rotate(0deg) !important;
+        }
+        .sticky-yellow { background-color: #fef3c7; border-bottom: 2px solid #d97706; }
+        .sticky-blue { background-color: #dbeafe; border-bottom: 2px solid #2563eb; }
+        .sticky-green { background-color: #dcfce7; border-bottom: 2px solid #16a34a; }
+        .sticky-red { background-color: #fee2e2; border-bottom: 2px solid #dc2626; }
+        
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: white; }
+            .drop-zone { border: 1px solid #ccc; break-inside: avoid; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
 
+    <!-- Header -->
+    <header class="bg-blue-900 text-white p-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold">Framework Scrum</h1>
+                <p class="text-blue-200 text-sm">Desafio de Projeto DIO - Arraste os conceitos para a coluna correta</p>
+            </div>
+            <div class="no-print flex gap-3">
+                <button onclick="checkAnswers()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow transition">
+                    ✅ Validar Respostas
+                </button>
+                <button onclick="window.print()" class="bg-white text-blue-900 hover:bg-gray-100 font-bold py-2 px-4 rounded shadow transition">
+                    🖨️ Salvar PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Board -->
+    <main class="flex-grow container mx-auto p-4">
+        
+        <!-- Drop Zones Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+            
+            <!-- Pilares -->
+            <div class="flex flex-col h-full">
+                <h2 class="text-center font-bold text-gray-700 mb-2 uppercase tracking-wide">1. Pilares (Theory)</h2>
+                <div id="zone-pilares" class="drop-zone flex-grow bg-white border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-[250px] space-y-2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            </div>
+
+            <!-- Valores -->
+            <div class="flex flex-col h-full">
+                <h2 class="text-center font-bold text-gray-700 mb-2 uppercase tracking-wide">2. Valores</h2>
+                <div id="zone-valores" class="drop-zone flex-grow bg-white border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-[250px] space-y-2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            </div>
+
+            <!-- Time (Responsabilidades) -->
+            <div class="flex flex-col h-full">
+                <h2 class="text-center font-bold text-gray-700 mb-2 uppercase tracking-wide">3. Time (Roles)</h2>
+                <div id="zone-time" class="drop-zone flex-grow bg-white border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-[250px] space-y-2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            </div>
+
+            <!-- Eventos -->
+            <div class="flex flex-col h-full">
+                <h2 class="text-center font-bold text-gray-700 mb-2 uppercase tracking-wide">4. Eventos</h2>
+                <div id="zone-eventos" class="drop-zone flex-grow bg-white border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-[250px] space-y-2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            </div>
+
+            <!-- Artefatos -->
+            <div class="flex flex-col h-full">
+                <h2 class="text-center font-bold text-gray-700 mb-2 uppercase tracking-wide">5. Artefatos</h2>
+                <div id="zone-artefatos" class="drop-zone flex-grow bg-white border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-[250px] space-y-2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            </div>
+        </div>
+
+        <!-- Feedback Message Area -->
+        <div id="feedback-area" class="hidden mb-6 p-4 rounded text-center font-bold"></div>
+
+        <!-- Source Deck (The Table) -->
+        <div class="no-print bg-gray-200 p-6 rounded-xl border border-gray-300 shadow-inner">
+            <h3 class="text-lg font-bold text-gray-600 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                Mesa de Cards (Arraste para cima)
+            </h3>
+            <div id="source-zone" class="flex flex-wrap gap-3 justify-center" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <!-- Cards will be injected here via JS -->
+            </div>
+            
+            <!-- Trash Zone for Distractors -->
+            <div class="mt-6 pt-4 border-t border-gray-300">
+                 <h3 class="text-sm font-bold text-red-500 mb-2">Lixeira (Não faz parte do Scrum)</h3>
+                 <div id="zone-lixo" class="drop-zone bg-red-50 border-2 border-dashed border-red-200 rounded-lg p-4 min-h-[100px] flex flex-wrap gap-2" ondrop="drop(event)" ondragover="allowDrop(event)">
+                     <span class="text-xs text-red-300 w-full text-center pointer-events-none">Solte os itens incorretos aqui</span>
+                 </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center p-4 mt-auto text-sm no-print">
+        <p>Gerado para o Desafio de Projeto DIO. Baseado no Scrum Guide 2020.</p>
+    </footer>
+
+    <script>
+        // Data Definitions
+        const cardsData = [
+            // Pilares
+            { id: 'p1', text: 'Transparência', category: 'pilares', color: 'sticky-yellow' },
+            { id: 'p2', text: 'Inspeção', category: 'pilares', color: 'sticky-yellow' },
+            { id: 'p3', text: 'Adaptação', category: 'pilares', color: 'sticky-yellow' },
+            
+            // Valores
+            { id: 'v1', text: 'Coragem', category: 'valores', color: 'sticky-blue' },
+            { id: 'v2', text: 'Foco', category: 'valores', color: 'sticky-blue' },
+            { id: 'v3', text: 'Compromisso', category: 'valores', color: 'sticky-blue' },
+            { id: 'v4', text: 'Respeito', category: 'valores', color: 'sticky-blue' },
+            { id: 'v5', text: 'Abertura', category: 'valores', color: 'sticky-blue' },
+
+            // Time
+            { id: 't1', text: 'Scrum Master', category: 'time', color: 'sticky-green' },
+            { id: 't2', text: 'Product Owner', category: 'time', color: 'sticky-green' },
+            { id: 't3', text: 'Developers', category: 'time', color: 'sticky-green' },
+
+            // Eventos
+            { id: 'e1', text: 'Sprint', category: 'eventos', color: 'sticky-yellow' },
+            { id: 'e2', text: 'Sprint Planning', category: 'eventos', color: 'sticky-yellow' },
+            { id: 'e3', text: 'Daily Scrum', category: 'eventos', color: 'sticky-yellow' },
+            { id: 'e4', text: 'Sprint Review', category: 'eventos', color: 'sticky-yellow' },
+            { id: 'e5', text: 'Sprint Retrospective', category: 'eventos', color: 'sticky-yellow' },
+
+            // Artefatos
+            { id: 'a1', text: 'Product Backlog', category: 'artefatos', color: 'sticky-blue' },
+            { id: 'a2', text: 'Sprint Backlog', category: 'artefatos', color: 'sticky-blue' },
+            { id: 'a3', text: 'Incremento', category: 'artefatos', color: 'sticky-blue' },
+
+            // Pegadinhas (Distractors)
+            { id: 'x1', text: 'Project Manager', category: 'lixo', color: 'sticky-red' },
+            { id: 'x2', text: 'Rugby', category: 'lixo', color: 'sticky-red' },
+            { id: 'x3', text: 'Project Release', category: 'lixo', color: 'sticky-red' },
+            { id: 'x4', text: 'Stakeholders', category: 'lixo', color: 'sticky-red' } 
+        ];
+
+        // Shuffle function
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Initialize Board
+        function initBoard() {
+            const sourceZone = document.getElementById('source-zone');
+            const shuffledCards = shuffle([...cardsData]);
+
+            shuffledCards.forEach(card => {
+                const el = document.createElement('div');
+                el.id = card.id;
+                el.className = `sticky-note ${card.color} w-32 h-32 p-3 flex items-center justify-center text-center font-bold text-gray-800 handwritten text-lg rounded-sm transform`;
+                el.draggable = true;
+                el.setAttribute('data-category', card.category);
+                el.innerText = card.text;
+                
+                // Random rotation for realism
+                const rot = Math.floor(Math.random() * 6) - 3;
+                el.style.transform = `rotate(${rot}deg)`;
+
+                el.addEventListener('dragstart', drag);
+                sourceZone.appendChild(el);
+            });
+        }
+
+        // Drag and Drop Functions
+        function allowDrop(ev) {
+            ev.preventDefault();
+            if (ev.target.classList.contains('drop-zone')) {
+                ev.target.classList.add('drag-over');
+            }
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            ev.target.classList.remove('rotate-0'); // Reset rotation while dragging if needed
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            
+            // Handle drop target finding (sometimes user drops on a child element)
+            let target = ev.target;
+            while (!target.classList.contains('drop-zone') && target.id !== 'source-zone') {
+                target = target.parentElement;
+                if(!target) return; // Safety check
+            }
+
+            // Remove highlight
+            document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('drag-over'));
+
+            if (target) {
+                target.appendChild(draggedElement);
+                // Re-apply random rotation
+                const rot = Math.floor(Math.random() * 6) - 3;
+                draggedElement.style.transform = `rotate(${rot}deg)`;
+            }
+        }
+
+        // Remove drag-over style when leaving
+        document.addEventListener('dragleave', (ev) => {
+             if (ev.target.classList.contains('drop-zone')) {
+                ev.target.classList.remove('drag-over');
+            }
+        });
+
+        // Validation Logic
+        function checkAnswers() {
+            const zones = ['pilares', 'valores', 'time', 'eventos', 'artefatos', 'lixo'];
+            let errors = 0;
+            let total = 0;
+
+            zones.forEach(zoneId => {
+                const zone = document.getElementById(`zone-${zoneId}`);
+                const cards = zone.querySelectorAll('.sticky-note');
+                
+                cards.forEach(card => {
+                    total++;
+                    const correctCategory = card.getAttribute('data-category');
+                    
+                    // Check if card is in the correct zone
+                    if (correctCategory === zoneId) {
+                        card.style.border = "4px solid #22c55e"; // Green border
+                    } else {
+                        card.style.border = "4px solid #ef4444"; // Red border
+                        errors++;
+                    }
+                });
+            });
+
+            const feedback = document.getElementById('feedback-area');
+            feedback.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-green-100', 'text-green-800');
+
+            // Also check if any cards are still in source
+            const sourceCards = document.getElementById('source-zone').children.length;
+
+            if (sourceCards > 0) {
+                feedback.classList.add('bg-yellow-100', 'text-yellow-800');
+                feedback.innerHTML = `⚠️ Ainda faltam ${sourceCards} cards para posicionar!`;
+            } else if (errors === 0) {
+                feedback.classList.add('bg-green-100', 'text-green-800');
+                feedback.innerHTML = `🎉 Parabéns! Você completou o Framework Scrum corretamente! Agora clique em "Salvar PDF".`;
+            } else {
+                feedback.classList.add('bg-red-100', 'text-red-800');
+                feedback.innerHTML = `❌ Ops! Existem ${errors} itens na coluna errada. (Verifique as bordas vermelhas)`;
+            }
+        }
+
+        // Initialize on load
+        window.onload = initBoard;
+
+    </script>
+</body>
+</html>
