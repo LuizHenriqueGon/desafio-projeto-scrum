@@ -1,1 +1,0 @@
-# desafio-projeto-scrum
