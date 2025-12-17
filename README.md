@@ -1,62 +1,81 @@
-# Desafio de Projeto: Scrum Framework 🔄
+# 📊 Desafio: Completando o Framework Scrum
 
-Este repositório contém a organização e o resumo dos conceitos fundamentais do Scrum Framework (baseado no Scrum Guide 2020), desenvolvidos como parte de um desafio de projeto.
+Este repositório contém a resolução do Desafio de Projeto **"Completando o Framework Scrum"**, parte da formação em Agilidade da DIO.
 
-## 📋 O que temos na mesa?
+## 📝 Descrição do Projeto
 
-O objetivo é mapear os componentes essenciais da metodologia ágil Scrum, separando o que é oficial do framework e o que são conceitos externos ou equivocados.
+O objetivo principal deste projeto foi consolidar o conhecimento sobre os componentes fundamentais do Scrum, organizando os seus Pilares, Valores, Papéis, Eventos e Artefatos de forma visual e estruturada.
 
----
-
-## 🏛️ Pilares do Scrum
-Os três pilares que sustentam todo o controle de processo empírico:
-* **Transparência:** O processo e o trabalho devem ser visíveis para quem é responsável pelo resultado.
-* **Inspeção:** O progresso deve ser inspecionado frequentemente para detectar variações indesejadas.
-* **Adaptação:** Se algo estiver fora dos limites aceitáveis, o processo deve ser ajustado.
-
-## 💎 Valores do Scrum
-Para que o Scrum funcione, o time deve internalizar estes cinco valores:
-1.  **Coragem:** Para fazer a coisa certa e trabalhar em problemas difíceis.
-2.  **Foco:** No trabalho da Sprint e nos objetivos do time.
-3.  **Compromisso:** Comprometimento pessoal em alcançar os objetivos.
-4.  **Respeito:** Respeitar uns aos outros como pessoas capazes e independentes.
-5.  **Abertura:** Ser aberto sobre o trabalho e os desafios.
+Durante o desenvolvimento, assumi o protagonismo para:
+* **Mapear o Framework:** Preencher o template identificando corretamente cada componente do Scrum.
+* **Validar o Conhecimento:** Diferenciar termos oficiais do Scrum Guide 2020 de termos obsoletos ou externos ("pegadinhas").
+* **Documentar:** Criar este repositório para compartilhar a solução com a comunidade.
 
 ---
 
-## 👥 Time Scrum (Responsabilidades)
-O Scrum não tem hierarquia tradicional, apenas três papéis:
-* **Scrum Master:** Responsável por garantir que o Scrum seja entendido e aplicado (liderança servidora).
-* **Product Owner (PO):** Maximiza o valor do produto e gerencia o Product Backlog.
-* **Developers:** As pessoas que criam o incremento utilizável a cada Sprint.
+## 🧩 Solução do Framework
 
-## 📅 Eventos
+Abaixo está a estrutura correta montada durante o desafio:
+
+### 1. Pilares (Theory)
+A base empírica do Scrum:
+* **Transparência:** Visibilidade do trabalho significativo.
+* **Inspeção:** Verificar frequentemente o progresso e artefatos.
+* **Adaptação:** Ajustar processos quando há desvios.
+
+### 2. Valores
+O que guia o comportamento do time:
+* **Coragem (Courage)**
+* **Foco (Focus)**
+* **Compromisso (Commitment)**
+* **Respeito (Respect)**
+* **Abertura (Openness)**
+
+### 3. Time (Roles)
+As responsabilidades específicas:
+* **Scrum Master:** Liderança servidora e guardião do processo.
+* **Product Owner:** Maximiza o valor do produto.
+* **Developers:** Criam o incremento a cada Sprint.
+
+### 4. Eventos
 Momentos formais para inspeção e adaptação:
-* **Sprint:** O "container" de todos os outros eventos (duração fixa).
-* **Sprint Planning:** Planejamento do que será feito.
-* **Daily Scrum:** Reunião diária de 15 minutos para alinhar o progresso.
-* **Sprint Review:** Inspeção do incremento gerado e adaptação do backlog.
-* **Sprint Retrospective:** O time inspeciona a si mesmo para criar um plano de melhorias.
+* **Sprint:** O coração do Scrum.
+* **Sprint Planning:** Planejamento do trabalho a ser realizado.
+* **Daily Scrum:** Alinhamento diário de 15 min.
+* **Sprint Review:** Inspeção do incremento com stakeholders.
+* **Sprint Retrospective:** Melhoria contínua do processo.
 
-## 📜 Artefatos
+### 5. Artefatos
 Representam trabalho ou valor:
-* **Product Backlog:** Lista ordenada do que é necessário no produto.
-* **Sprint Backlog:** Itens selecionados para a Sprint + o plano de execução.
-* **Incremento:** A soma de todos os itens do backlog completados.
+* **Product Backlog** (Compromisso: Meta do Produto)
+* **Sprint Backlog** (Compromisso: Meta da Sprint)
+* **Incremento** (Compromisso: Definição de Pronto/DoD)
 
 ---
 
-## ⚠️ "Pegadinhas" (Não são Scrum)
-Conceitos que frequentemente são confundidos, mas **não fazem parte** da definição oficial do Scrum:
-* **Project Manager:** Não existe esse papel no Scrum.
-* **Project Release:** Não é um artefato oficial.
-* **Rugby:** É a origem do nome, mas não faz parte do framework de TI.
-* **Stakeholders:** São essenciais, mas são considerados externos ao "Time Scrum" (interagem principalmente na Review).
+## 🛠️ Tecnologias e Ferramentas
+
+* **Miro:** Utilizado para a organização visual dos cards.
+* **HTML5/CSS/JS (Bônus):** Criação de uma versão interativa do board para validação de conhecimentos.
+* **Git/GitHub:** Versionamento e documentação da entrega.
+
+## 🚀 Como visualizar este projeto
+
+1.  **Board Estático:** Veja a imagem exportada na pasta `/assets` deste repositório (se aplicável).
+2.  **Versão Interativa:**
+    * Faça o download do arquivo `index.html` disponível neste repositório.
+    * Abra-o em qualquer navegador.
+    * Arraste os cards para testar os seus conhecimentos sobre Scrum dinamicamente!
+
+## ❌ "Pegadinhas" Identificadas
+
+Durante o desafio, identificamos termos que **NÃO** fazem parte do Core Scrum oficial:
+* **Project Manager:** Gerente de Projetos tradicional.
+* **Rugby:** Apenas a origem do nome, não um termo técnico.
+* **Project Release:** Conceito de entrega, mas não um artefato oficial.
 
 ---
-
-## 🛠️ Ferramentas Utilizadas
-* Ferramenta de Mind Map / Quadro Virtual
 
 ## 👨‍💻 Autor
-* [Luiz Henrique Gonçalves]
+
+Feito com 💜 durante o Bootcamp da DIO.
